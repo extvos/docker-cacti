@@ -2,7 +2,7 @@ FROM extvos/centos
 
 MAINTAINER  "Mingcai SHEN <archsh@gmail.com>"
 
-CACTI_VERSION 0.8.8f
+ENV CACTI_VERSION 0.8.8f
 
 COPY start-service.sh /
 COPY packages/cacti.conf /etc/httpd/conf.d/
@@ -20,6 +20,6 @@ RUN yum install -y httpd mod_ssl cronie \
 
 EXPOSE 80
 
-VOLUME ["/var/www/cgi-bin", "/var/www/error",  "/var/www/html",  "/var/www/icons"]
+VOLUME ["/opt/cacti/rra", "/opt/cacti/log"]
 
 CMD ["/start-service.sh"]
