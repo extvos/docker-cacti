@@ -1,19 +1,21 @@
-FROM extvos/php5
+FROM extvos/centos
 
 MAINTAINER  "Mingcai SHEN <archsh@gmail.com>"
 
 CACTI_VERSION 0.8.8f
 
-ADD http://www.cacti.net/downloads/cacti-${CACTI_VERSION}.tar.gz /opt
+COPY start-service.sh /
+COPY packages/cacti.conf /etc/httpd/conf.d/
 
-COPY start-httpd.sh /
-RUN yum install -y httpd mod_ssl \
-	&& chmod +x /start-httpd.sh \
+RUN yum install -y httpd mod_ssl cronie \
+	&& yum install -y php php-mysql php-snmp php-ldap php-xml php-gd php-snmp pcre net-snmp net-snmp-libs net-snmp-utils wget patch \
+	&& chmod +x /start-service.sh \
 	&& cd /opt \
 	&& wget http://www.cacti.net/downloads/cacti-${CACTI_VERSION}.tar.gz \
 	&& tar zxf cacti-${CACTI_VERSION}.tar.gz \
 	&& rm -f cacti-${CACTI_VERSION}.tar.gz \ 
-	&& ln -s /opt/cacti-${CACTI_VERSION} /opt/cacti
+	&& ln -s /opt/cacti-${CACTI_VERSION} /opt/cacti \
+	&& cp /opt/cacti/include/config.php /opt/cacti/include/config.php.default
 
 
 EXPOSE 80
