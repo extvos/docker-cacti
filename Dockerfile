@@ -1,7 +1,5 @@
 FROM extvos/centos
-
 MAINTAINER  "Mingcai SHEN <archsh@gmail.com>"
-
 ENV CACTI_VERSION 0.8.8f
 
 COPY start-service.sh /
